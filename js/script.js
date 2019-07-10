@@ -45,13 +45,30 @@ window.addEventListener('DOMContentLoaded', function() {
 
         return {
             'total' : t,
-            'hours' : hours,
-            'minutes' : minutes,
-            'seconds' : seconds
+            'hours' : hours < 10 ? '0' + hours : hours,
+            'minutes' : minutes < 10 ? '0' + minutes :  minutes,
+            'seconds' : seconds < 10 ? '0' + seconds : seconds
         }
     }
 
-    
+    function setClock(id, endtime) {
+        let timer = document.getElementById(id),
+            hours = timer.querySelector('.hours'),
+            minutes = timer.querySelector('.minutes'),
+            seconds = timer.querySelector('.seconds'),
+            timeInterval = setInterval(updateClock, 1000);
+
+            function updateClock() {
+                let t = getTimeRemaining(endtime);
+                hours.textContent = t.hours;
+                minutes.textContent = t.minutes;
+                seconds.textContent = t.seconds;
+
+                if( t.total <= 0 ) {
+                    clearInterval(timeInterval);
+                }
+            }
+    }
    
-    getTimeRemaining(deadline);
+    setClock('timer', deadline);
 });
